@@ -53,13 +53,19 @@ function getRandomExcluding(max, excludeList=[]){
   return retVal;
 }
 
-
-
 function getRandomItemFromList(dataList){
   return dataList[getRandomInt(dataList.length)];
 }
 
-
+function getRandomItemFromListExcluding(dataList, excludedList=[]){
+  let retVal = getRandomItemFromList(dataList);
+  if(excludedList.length < dataList.length){
+    while(excludedList.includes(retVal)){
+      retVal = getRandomItemFromList(dataList);
+    }
+  }
+  return retVal;
+}
 
 // example JSON data
 const data = [
@@ -137,6 +143,7 @@ const freeElectivesSelection = {
   ECON1203: "Business and Economic Statistics",
   //TODO: add more subjects
 }
+const freeElectivesSelectionList = Object.keys(freeElectivesSelection);
 
 
 //get random data
@@ -168,11 +175,22 @@ for (i = 0; i < amtStudent; i++) {
     stuid: i,
     firstname: random_name({ random: Math.random, first: true }),
     lastname: random_name({ random: Math.random, last: true }),
-    favcolor: colourSelectionList[getRandomInt(colourSelectionList.length)],
-    subj1: getRandomItemFromList(compSubjectSelectionList),
+    favcolor: colourSelectionList[getRandomInt(colourSelectionList.length)]
   }
+
+  let subj1 = getRandomItemFromList(compSubjectSelectionList);
+  let subj2 = getRandomItemFromList(compSubjectSelectionList, [subj1]);
+  let subj3 = getRandomItemFromList(compSubjectSelectionList, [subj1, subj2]);
+  _item["subj1"] = subj1;
+  _item["subj2"] = subj2;
+  _item["subj3"] = subj3;
+
+  _item["electives"] = getRandomItemFromList(freeElectivesSelectionList);
+
+  //console.log("subjects", subj1, subj2, subj3);
   studData.push(_item);
 }
+console.log(studData);
 buildCSV('studentData.csv', studData);
 
 

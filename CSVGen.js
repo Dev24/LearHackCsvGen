@@ -175,9 +175,15 @@ for (i = 0; i < amtStudent; i++) {
     stuid: i,
     firstname: random_name({ random: Math.random, first: true }),
     lastname: random_name({ random: Math.random, last: true }),
-    favcolor: colourSelectionList[getRandomInt(colourSelectionList.length)]
+    favcolor: colourSelectionList[getRandomInt(colourSelectionList.length)],
+    openness: getRandomInt(10)+1,
+    conscientiousness: getRandomInt(10)+1,
+    extraversion: getRandomInt(10)+1,
+    agreeableness: getRandomInt(10)+1,
+    neuroticism: getRandomInt(10)+1,
   }
 
+  //set subjects
   let subj1 = getRandomItemFromList(compSubjectSelectionList);
   let subj2 = getRandomItemFromList(compSubjectSelectionList, [subj1]);
   let subj3 = getRandomItemFromList(compSubjectSelectionList, [subj1, subj2]);
@@ -190,7 +196,7 @@ for (i = 0; i < amtStudent; i++) {
   //console.log("subjects", subj1, subj2, subj3);
   studData.push(_item);
 }
-console.log(studData);
+//console.log(studData);
 buildCSV('studentData.csv', studData);
 
 
